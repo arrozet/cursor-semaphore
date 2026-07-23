@@ -28,6 +28,52 @@ TRAVEL_IN_PRESSURE = 0.0
 _target_phase = "NS_GREEN"
 _planned_axis = None
 _planned_green = MIN_GREEN
+_last_tick = -1
+_travel_est = None  # inferred per-map link travel ticks
+_link_watch: dict[str, int] = {}
+_prev_links: dict[str, int] = {}
+
+
+def _reset_episode_state() -> None:
+    global _target_phase, _planned_axis, _planned_green
+    global _travel_est, _link_watch, _prev_links
+    _target_phase = "NS_GREEN"
+    _planned_axis = None
+    _planned_green = MIN_GREEN
+    _travel_est = None
+    _link_watch = {}
+    _prev_links = {}
+
+
+def _update_travel_estimate(state: dict, tick: int) -> None:
+    """Infer link travel time by timing first-entry -> first-exit on links.
+
+    Entries/exits are FIFO with a constant per-map travel time, so
+    (first observed decrease or emptying) - (entry into empty link) >= T,
+    with equality whenever a vehicle crosses without a same-tick entry
+    masking its exit. Taking the min converges to the true T early on.
+    """
+    global _travel_est, _prev_links
+    links_now = {
+        k: int(v.get("vehicles") or 0) for k, v in (state.get("links") or {}).items()
+    }
+    keys = set(links_now) | set(_prev_links)
+    for k in keys:
+        occ = links_now.get(k, 0)
+        prev = _prev_links.get(k, 0)
+        if prev == 0 and occ >= 1:
+            _link_watch.setdefault(k, tick)
+        elif k in _link_watch and occ < prev:
+            obs = tick - _link_watch.pop(k)
+            if obs >= 1 and (_travel_est is None or obs < _travel_est):
+                _travel_est = obs
+    _prev_links = links_now
+
+
+def _travel_ticks() -> int:
+    if _travel_est is None:
+        return LINK_TRAVEL_TICKS
+    return max(1, min(30, _travel_est))
 
 
 def _parse_id(item: str) -> tuple[int, int] | None:
@@ -123,11 +169,18 @@ def _axis_pressure(state: dict, axis: str, travel_totals: dict[str, int]) -> flo
 
 def control(state):
     """Sync max-pressure hybrid: locked corridor green + pressure switch."""
-    global _target_phase, _planned_axis, _planned_green
+    global _target_phase, _planned_axis, _planned_green, _last_tick
+
+    tick = int(state.get("tick", 0))
+    if tick <= _last_tick:
+        _reset_episode_state()
+    _last_tick = tick
 
     intersections = state["intersections"]
     if not intersections:
         return {}
+
+    _update_travel_estimate(state, tick)
 
     reference = next(iter(intersections.values()))
     current_phase = reference["phase"]
@@ -149,7 +202,7 @@ def control(state):
         rows = state["map"]["rows"]
         cols = state["map"]["cols"]
         corridor_length = rows if current_axis == "NS" else cols
-        traversal = LINK_TRAVEL_TICKS * max(0, corridor_length - 1)
+        traversal = _travel_ticks() * max(0, corridor_length - 1)
         n = max(1, len(intersections))
         active = q_cur + q_oth + t_cur + t_oth
         density = active / n
