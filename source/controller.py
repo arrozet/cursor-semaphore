@@ -23,17 +23,21 @@ DENSE_SHARE_EMA = 0.958
 NORMAL_CYCLE_EMA = 0.95
 DENSE_CYCLE_EMA = 0.90
 MIN_CYCLE = 18.0
-MAX_CYCLE = 55.0
+MAX_CYCLE = 110.0
 INITIAL_CYCLE = 25.0
+DENSE_BASE = 14.0
+DENSE_SLOPE = 3.5
+OVERLOAD_GAIN = 2.0   # extra cycle ticks per unit of mean queue beyond OVERLOAD_START
+OVERLOAD_START = 15.0
 
 # ---- local mode (per-junction max-pressure) ----
 AGE_WEIGHT = 0.08
 AGE_CAP = 120
-DOWNSTREAM_WEIGHT = 0.30
+DOWNSTREAM_WEIGHT = 0.50
 BLOCKED_FACTOR = 0.12
 SWITCH_RATIO = 1.30
 SWITCH_MARGIN = 1.2
-MAX_GREEN = 40
+MAX_GREEN = 55
 STARVE_WAIT = 60
 
 # ---- mode gate ----
@@ -90,7 +94,8 @@ def _advance_sync_clock(ns_total, ew_total, intersection_count):
     if mean_queue < LIGHT_QUEUE:
         target_cycle = 20.0 + 3.0 * mean_queue
     else:
-        target_cycle = 14.0 + 3.5 * intersection_count
+        target_cycle = DENSE_BASE + DENSE_SLOPE * intersection_count
+        target_cycle += OVERLOAD_GAIN * max(0.0, mean_queue - OVERLOAD_START)
     target_cycle = min(MAX_CYCLE, max(MIN_CYCLE, target_cycle))
     _state["cycle"] = _state["cycle"] * cycle_ema + target_cycle * (1 - cycle_ema)
 
