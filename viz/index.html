@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Replay viewer for the public Traffic Lights Arena scenarios."
+    />
+    <title>Traffic Replay Viewer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Traffic Lights Arena</p>
+          <h1>Replay viewer</h1>
+        </div>
+        <p class="header-copy">
+          Inspect vehicle flow, queues, and signal phases across the public demo
+          scenarios.
+        </p>
+      </header>
+
+      <nav class="scenario-tabs" aria-label="Replay scenario">
+        <button
+          class="scenario-tab is-active"
+          type="button"
+          data-scenario="balanced-grid"
+          aria-pressed="true"
+        >
+          <span>Balanced grid</span>
+          <small>2 × 2</small>
+        </button>
+        <button
+          class="scenario-tab"
+          type="button"
+          data-scenario="northbound-morning"
+          aria-pressed="false"
+        >
+          <span>Northbound morning</span>
+          <small>3 × 2</small>
+        </button>
+        <button
+          class="scenario-tab"
+          type="button"
+          data-scenario="city-rush"
+          aria-pressed="false"
+        >
+          <span>City rush</span>
+          <small>3 × 3</small>
+        </button>
+      </nav>
+
+      <section class="viewer-grid">
+        <div class="viewer-panel">
+          <div class="canvas-wrap">
+            <canvas id="map-canvas" aria-label="Animated traffic replay map">
+              Your browser does not support canvas.
+            </canvas>
+            <div id="loading-state" class="canvas-state" role="status">
+              <span class="spinner" aria-hidden="true"></span>
+              <span id="loading-copy">Loading replay…</span>
+            </div>
+          </div>
+
+          <div class="controls" aria-label="Playback controls">
+            <div class="button-controls">
+              <button
+                id="play-button"
+                class="icon-button primary-button"
+                type="button"
+                aria-label="Play replay"
+                disabled
+              >
+                <span class="play-icon" aria-hidden="true"></span>
+                <span id="play-label">Play</span>
+              </button>
+              <button
+                id="restart-button"
+                class="icon-button"
+                type="button"
+                aria-label="Restart replay"
+                disabled
+              >
+                <span class="restart-icon" aria-hidden="true">↺</span>
+                <span>Restart</span>
+              </button>
+            </div>
+
+            <div class="scrubber-group">
+              <label for="tick-slider">
+                Timeline
+                <output id="timeline-output" for="tick-slider">0 / 899</output>
+              </label>
+              <input
+                id="tick-slider"
+                type="range"
+                min="0"
+                max="899"
+                value="0"
+                step="1"
+                disabled
+              />
+            </div>
+
+            <label class="speed-control" for="speed-select">
+              Speed
+              <select id="speed-select" disabled>
+                <option value="0.25">0.25×</option>
+                <option value="0.5">0.5×</option>
+                <option value="1" selected>1×</option>
+                <option value="2">2×</option>
+                <option value="4">4×</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <section class="sidebar-card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Now viewing</p>
+                <h2 id="scenario-name">Balanced grid</h2>
+              </div>
+              <span id="playback-state" class="status-pill">Loading</span>
+            </div>
+
+            <dl class="hud-grid">
+              <div>
+                <dt>Tick</dt>
+                <dd id="hud-tick">—</dd>
+              </div>
+              <div>
+                <dt>Completed</dt>
+                <dd id="hud-completed">—</dd>
+              </div>
+              <div>
+                <dt>Waiting</dt>
+                <dd id="hud-waiting">—</dd>
+              </div>
+              <div>
+                <dt>Vehicles</dt>
+                <dd id="hud-vehicles">—</dd>
+              </div>
+              <div class="wide-stat">
+                <dt>Estimated live cost</dt>
+                <dd id="hud-cost">—</dd>
+              </div>
+            </dl>
+            <p class="formula-note">Waiting ticks + 300 × unfinished estimate</p>
+          </section>
+
+          <section id="metrics-card" class="sidebar-card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Replay result</p>
+                <h2>Final metrics</h2>
+              </div>
+              <span id="metrics-badge" class="status-pill neutral">900 ticks</span>
+            </div>
+            <dl class="metrics-list">
+              <div><dt>Spawned</dt><dd id="metric-spawned">—</dd></div>
+              <div><dt>Completed</dt><dd id="metric-completed">—</dd></div>
+              <div><dt>Unfinished</dt><dd id="metric-unfinished">—</dd></div>
+              <div><dt>Wait ticks</dt><dd id="metric-waiting">—</dd></div>
+              <div class="total-metric">
+                <dt>Final cost</dt><dd id="metric-cost">—</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="sidebar-card legend-card">
+            <p class="eyebrow">Intersection color</p>
+            <h2>Signal phases</h2>
+            <ul class="legend-list">
+              <li><span class="legend-dot ns-green"></span>NS green</li>
+              <li><span class="legend-dot ew-green"></span>EW green</li>
+              <li><span class="legend-dot ns-yellow"></span>NS yellow</li>
+              <li><span class="legend-dot ew-yellow"></span>EW yellow</li>
+              <li><span class="legend-dot all-red"></span>All red</li>
+            </ul>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+    <script src="hotreload.js"></script>
+  </body>
+</html>

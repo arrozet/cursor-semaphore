@@ -32,3 +32,21 @@ Working strategy for solving the challenge. Read [`challenge.md`](challenge.md) 
 - Adapt to different densities and topologies (unseen maps).
 - Use memory **within** a map (queues, phases, trends); assume a clean process between maps.
 - Prefer robust rules over magic constants tuned to a single map.
+
+## Replay viewer (`viz/`)
+
+Plain HTML/CSS/JS viewer for the public demo replays in `maps/basic/`. Do **not** open `viz/index.html` via `file://` — `fetch` of the JSON maps will fail.
+
+**Cross-platform** (1× macOS + Windows): only needs Python 3. From the repo root:
+
+```bash
+python3 viz/serve.py
+```
+
+```bat
+python viz\serve.py
+```
+
+Opens [http://localhost:8765/viz/](http://localhost:8765/viz/) with hot reload on `viz/` (HTML/CSS/JS). Port: `python3 viz/serve.py --port 9000`.
+
+Optional wrappers: `./viz/serve.sh` · `viz\serve.cmd`. Analysis: `docs/analysis/`.
