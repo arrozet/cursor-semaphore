@@ -1,0 +1,544 @@
+{
+ "name": "sw_TRAVEL_IN_PRESSURE_0p25",
+ "controller": "/Users/roz/Documents/github/cursor-semaphore-fable-b/exp/_sweep_TRAVEL_IN_PRESSURE_0p25.py",
+ "summary": {
+  "public_geom": 20096,
+  "public_geom_seed0": 22809,
+  "alesuito_geom": 20464,
+  "all_geom": 20439,
+  "min_score": 7983,
+  "total_unfinished": 2730,
+  "n_maps": 44,
+  "seeds": 3
+ },
+ "rows": [
+  {
+   "id": "balanced-grid",
+   "cost": 15353,
+   "score": 14516,
+   "score0": 22182,
+   "scores": [
+    22182,
+    14838,
+    9293
+   ],
+   "unfinished": 18
+  },
+  {
+   "id": "northbound-morning",
+   "cost": 28794,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 28
+  },
+  {
+   "id": "city-rush",
+   "cost": 66553,
+   "score": 22365,
+   "score0": 21397,
+   "scores": [
+    21397,
+    25000,
+    20912
+   ],
+   "unfinished": 54
+  },
+  {
+   "id": "combo-1x3-burst-tiny-links",
+   "cost": 184111,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 219
+  },
+  {
+   "id": "combo-2x2-flip-tiny-cap",
+   "cost": 20993,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 19
+  },
+  {
+   "id": "combo-4x4-sparse-slow",
+   "cost": 43301,
+   "score": 7983,
+   "score0": 7811,
+   "scores": [
+    7811,
+    8078,
+    8063
+   ],
+   "unfinished": 53
+  },
+  {
+   "id": "combo-5x5-mild",
+   "cost": 136258,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 154
+  },
+  {
+   "id": "combo-corner-bias-3x3",
+   "cost": 17773,
+   "score": 13474,
+   "score0": 12071,
+   "scores": [
+    12071,
+    9993,
+    20280
+   ],
+   "unfinished": 21
+  },
+  {
+   "id": "corridor-1x4",
+   "cost": 19237,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 25
+  },
+  {
+   "id": "corridor-5x1",
+   "cost": 209744,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 256
+  },
+  {
+   "id": "dead-quiet-2x2",
+   "cost": 540,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 0
+  },
+  {
+   "id": "ew-only-3x3",
+   "cost": 30697,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 49
+  },
+  {
+   "id": "fast-travel-2x3",
+   "cost": 23155,
+   "score": 14991,
+   "score0": 10259,
+   "scores": [
+    10259,
+    13135,
+    25000
+   ],
+   "unfinished": 21
+  },
+  {
+   "id": "fat-links-3x3",
+   "cost": 68753,
+   "score": 20639,
+   "score0": 22289,
+   "scores": [
+    22289,
+    18683,
+    21111
+   ],
+   "unfinished": 78
+  },
+  {
+   "id": "grid-2x2-balanced",
+   "cost": 19620,
+   "score": 10332,
+   "score0": 10490,
+   "scores": [
+    10490,
+    9283,
+    11325
+   ],
+   "unfinished": 21
+  },
+  {
+   "id": "grid-2x2-ew-storm",
+   "cost": 22021,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 18
+  },
+  {
+   "id": "grid-2x2-ns-storm",
+   "cost": 23207,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 25
+  },
+  {
+   "id": "grid-2x2-saturated",
+   "cost": 76179,
+   "score": 11180,
+   "score0": 9703,
+   "scores": [
+    9703,
+    12000,
+    12001
+   ],
+   "unfinished": 75
+  },
+  {
+   "id": "grid-2x2-sparse",
+   "cost": 3112,
+   "score": 17407,
+   "score0": 25000,
+   "scores": [
+    25000,
+    9930,
+    21246
+   ],
+   "unfinished": 5
+  },
+  {
+   "id": "grid-2x3-ew-rush",
+   "cost": 26267,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 26
+  },
+  {
+   "id": "grid-3x2-ns-rush",
+   "cost": 31172,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 29
+  },
+  {
+   "id": "grid-3x3-balanced",
+   "cost": 46692,
+   "score": 18868,
+   "score0": 19450,
+   "scores": [
+    19450,
+    18456,
+    18712
+   ],
+   "unfinished": 47
+  },
+  {
+   "id": "grid-3x3-burst45",
+   "cost": 57978,
+   "score": 17857,
+   "score0": 15177,
+   "scores": [
+    15177,
+    20308,
+    18473
+   ],
+   "unfinished": 57
+  },
+  {
+   "id": "grid-3x3-burst90",
+   "cost": 70619,
+   "score": 22575,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    18407
+   ],
+   "unfinished": 67
+  },
+  {
+   "id": "grid-3x5-tall",
+   "cost": 69113,
+   "score": 18838,
+   "score0": 23885,
+   "scores": [
+    23885,
+    15567,
+    17978
+   ],
+   "unfinished": 79
+  },
+  {
+   "id": "grid-4x2-strip",
+   "cost": 61770,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 46
+  },
+  {
+   "id": "grid-4x4-heavy",
+   "cost": 183696,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 209
+  },
+  {
+   "id": "grid-5x3-wide",
+   "cost": 351809,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 431
+  },
+  {
+   "id": "micro-1x2",
+   "cost": 10692,
+   "score": 17098,
+   "score0": 25000,
+   "scores": [
+    25000,
+    13826,
+    14461
+   ],
+   "unfinished": 10
+  },
+  {
+   "id": "micro-2x1",
+   "cost": 11944,
+   "score": 20066,
+   "score0": 25000,
+   "scores": [
+    25000,
+    16274,
+    19858
+   ],
+   "unfinished": 16
+  },
+  {
+   "id": "ns-only-3x3",
+   "cost": 25826,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 42
+  },
+  {
+   "id": "single-cell",
+   "cost": 9241,
+   "score": 23852,
+   "score0": 25000,
+   "scores": [
+    25000,
+    21711,
+    25000
+   ],
+   "unfinished": 9
+  },
+  {
+   "id": "slow-travel-3x3",
+   "cost": 78852,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 104
+  },
+  {
+   "id": "tiny-links-2x2",
+   "cost": 46457,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 47
+  },
+  {
+   "id": "windows-asymmetric-cardinals",
+   "cost": 52298,
+   "score": 22067,
+   "score0": 18764,
+   "scores": [
+    18764,
+    22907,
+    25000
+   ],
+   "unfinished": 56
+  },
+  {
+   "id": "windows-endgame-flood",
+   "cost": 76346,
+   "score": 19231,
+   "score0": 12086,
+   "scores": [
+    12086,
+    23538,
+    25000
+   ],
+   "unfinished": 140
+  },
+  {
+   "id": "windows-flip-axis",
+   "cost": 48041,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 67
+  },
+  {
+   "id": "windows-lane-skew-cols",
+   "cost": 14638,
+   "score": 20595,
+   "score0": 13977,
+   "scores": [
+    13977,
+    25000,
+    25000
+   ],
+   "unfinished": 18
+  },
+  {
+   "id": "windows-lane-skew-rows",
+   "cost": 13105,
+   "score": 18198,
+   "score0": 17520,
+   "scores": [
+    17520,
+    13760,
+    25000
+   ],
+   "unfinished": 13
+  },
+  {
+   "id": "windows-mid-spike",
+   "cost": 29726,
+   "score": 14755,
+   "score0": 11038,
+   "scores": [
+    11038,
+    11897,
+    24461
+   ],
+   "unfinished": 17
+  },
+  {
+   "id": "windows-north-only-pulse",
+   "cost": 27808,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 14
+  },
+  {
+   "id": "windows-oscillate",
+   "cost": 19686,
+   "score": 22040,
+   "score0": 25000,
+   "scores": [
+    25000,
+    18642,
+    22973
+   ],
+   "unfinished": 19
+  },
+  {
+   "id": "windows-quiet-to-rush",
+   "cost": 24842,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 23
+  },
+  {
+   "id": "windows-rush-to-quiet",
+   "cost": 17634,
+   "score": 15259,
+   "score0": 12326,
+   "scores": [
+    12326,
+    17915,
+    16090
+   ],
+   "unfinished": 5
+  }
+ ]
+}
