@@ -85,3 +85,15 @@ PUBLIC_SCENARIOS = (
         burst_period=90,
     ),
 )
+
+
+# Optional local stress suite.  It is imported after the public definitions so
+# scenarios_mpow.py can reuse DemandWindow and Scenario without a second model
+# of the scenario schema.
+from .scenarios_mpow import MPOW_SCENARIOS  # noqa: E402
+
+
+# Include the local MPOW stress suite in the registry consumed by run.py.
+# run.py remains unchanged and discovers these maps through PUBLIC_SCENARIOS.
+PUBLIC_SCENARIOS = PUBLIC_SCENARIOS + MPOW_SCENARIOS
+ALL_SCENARIOS = PUBLIC_SCENARIOS
