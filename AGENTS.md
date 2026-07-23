@@ -6,8 +6,8 @@ Working strategy for solving the challenge. Read [`challenge.md`](challenge.md) 
 
 1. **Controller only** — all logic changes go in the single controller file; do not touch the simulation engine.
 2. **Generalize** — 80% of the score comes from private maps; do not overfit to the public ones.
-3. **Test before submit** — run `python run.py` locally before every `python submit.py`.
-4. **Submissions are scarce** — max 20 attempts; a broken controller still consumes an attempt. Do not submit without validating.
+3. **Test freely** — run `python run.py` as often as needed; local validation is unlimited.
+4. **Submissions are scarce** — max 20 attempts; a broken controller still consumes an attempt. Never run `python submit.py` without **explicit user confirmation** first (ask and wait). Always validate with `python run.py` before proposing a submit.
 5. **Aim for gold** — between baseline and gold, progress is squared; a near-gold improvement is worth far more than a small early gain.
 
 ## Version control
@@ -23,7 +23,7 @@ Working strategy for solving the challenge. Read [`challenge.md`](challenge.md) 
 3. Implement only that change.
 4. Validate with `python run.py`.
 5. Commit + push with Conventional Commits.
-6. If results improve stably, consider a submission (`python submit.py`).
+6. If results improve stably, propose a submission to the user; only run `python submit.py` after they explicitly confirm.
 7. Repeat: iterate fast, measure, keep what generalizes.
 
 ## What to optimize
