@@ -40,6 +40,11 @@ SWITCH_MARGIN = 1.2
 MAX_GREEN = 55
 STARVE_WAIT = 60
 
+# ---- green wave (sync mode) ----
+WAVE_K = 0          # ticks of clock lag per junction step along dominant flow
+WAVE_HISTORY = 400
+DOM_EMA = 0.97
+
 # ---- mode gate ----
 MODE_EMA = 0.90
 WARMUP_TICKS = 40  # faster density tracking early on
@@ -54,6 +59,9 @@ _state = {
     "cycle": INITIAL_CYCLE,
     "mode": "local",
     "density": 0.0,
+    "history": [],
+    "ns_bias": 0.0,  # >0 means southbound dominates, <0 northbound
+    "ew_bias": 0.0,  # >0 means eastbound dominates, <0 westbound
     "last": {},
 }
 
@@ -104,6 +112,24 @@ def _advance_sync_clock(ns_total, ew_total, intersection_count):
         _state["phase"], _state["age"] = "EW_GREEN", 0
     elif _state["phase"] == "EW_GREEN" and _state["age"] >= (1 - share) * _state["cycle"]:
         _state["phase"], _state["age"] = "NS_GREEN", 0
+
+    history = _state["history"]
+    history.append(_state["phase"])
+    if len(history) > WAVE_HISTORY:
+        del history[: len(history) - WAVE_HISTORY]
+
+
+def _wave_phase(item, rows, cols):
+    if WAVE_K <= 0:
+        return _state["phase"]
+    row, col = _parse(item)
+    row_progress = row if _state["ns_bias"] >= 0 else rows - 1 - row
+    col_progress = col if _state["ew_bias"] >= 0 else cols - 1 - col
+    offset = WAVE_K * (row_progress + col_progress)
+    history = _state["history"]
+    if offset <= 0 or not history:
+        return _state["phase"]
+    return history[max(len(history) - 1 - offset, 0)]
 
 
 # --------------------------------------------------------------- local mode
@@ -194,6 +220,9 @@ def control(state):
             cycle=INITIAL_CYCLE,
             mode="local",
             density=0.0,
+            history=[],
+            ns_bias=0.0,
+            ew_bias=0.0,
             last={},
         )
 
@@ -201,11 +230,24 @@ def control(state):
     rows = state["map"]["rows"]
     cols = state["map"]["cols"]
 
-    ns_total = ew_total = 0
+    n_total = s_total = e_total = w_total = 0
     for info in intersections.values():
         queues = info["queues"]
-        ns_total += queues.get("N", 0) + queues.get("S", 0)
-        ew_total += queues.get("E", 0) + queues.get("W", 0)
+        n_total += queues.get("N", 0)
+        s_total += queues.get("S", 0)
+        e_total += queues.get("E", 0)
+        w_total += queues.get("W", 0)
+    ns_total = n_total + s_total
+    ew_total = e_total + w_total
+
+    if ns_total:
+        _state["ns_bias"] = _state["ns_bias"] * DOM_EMA + (
+            (s_total - n_total) / ns_total
+        ) * (1 - DOM_EMA)
+    if ew_total:
+        _state["ew_bias"] = _state["ew_bias"] * DOM_EMA + (
+            (e_total - w_total) / ew_total
+        ) * (1 - DOM_EMA)
 
     _advance_sync_clock(ns_total, ew_total, len(intersections))
     _update_mode(ns_total + ew_total, len(intersections), state["tick"], intersections)
@@ -218,7 +260,7 @@ def control(state):
         if use_local:
             decision = _local_decision(item, info, state, rows, cols)
         else:
-            decision = _state["phase"]
+            decision = _wave_phase(item, rows, cols)
         decisions[item] = decision
         _state["last"][item] = decision
     return decisions
