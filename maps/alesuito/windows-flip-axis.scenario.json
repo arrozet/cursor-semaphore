@@ -1,0 +1,36 @@
+{
+  "id": "windows-flip-axis",
+  "name": "NS then flip to EW",
+  "rows": 3,
+  "cols": 3,
+  "seed": 603,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": [
+    {
+      "start_tick": 0,
+      "end_tick": 450,
+      "north_rate": 0.26,
+      "south_rate": 0.24,
+      "east_rate": 0.05,
+      "west_rate": 0.05,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 450,
+      "end_tick": 900,
+      "north_rate": 0.05,
+      "south_rate": 0.05,
+      "east_rate": 0.26,
+      "west_rate": 0.24,
+      "row_weights": [],
+      "col_weights": []
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "corridor-5x1",
+  "name": "Thin NS corridor",
+  "rows": 5,
+  "cols": 1,
+  "seed": 103,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.04,
+  "vertical_rate": 0.28,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

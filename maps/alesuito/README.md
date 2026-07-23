@@ -2,23 +2,32 @@
 
 Carpeta **propia** (no tocar `maps/basic/` ni la carpeta de mapas de la compañera).
 
-Replay JSON con la **misma estructura** que `maps/basic/` (`version`, `scenario`, `map`, `frames`, `metrics`), generados con el `fixed_time_controller` del motor (sin modificar código del reto).
+Replay JSON con la **misma estructura** que `maps/basic/` (`version`, `scenario`, `map`, `frames`, `metrics`), generados con el `fixed_time_controller` del motor.
 
-## Para qué sirven
+Cada mapa incluye además un sidecar `*.scenario.json` para que `run.py` lo descubra automáticamente (cualquier subcarpeta bajo `maps/`).
 
-La clasificación usa **media geométrica**: un solo mapa oculto malo hunde el score. Esta suite cubre extremos y excepciones para comprobar que el controller es **map-agnóstico** (mallas raras, demanda asimétrica, bursts, ventanas, capacidades pequeñas, endgame flood, etc.).
+## Usar con run.py
 
-No son los mapas privados oficiales; son proxies de estrés.
+Desde `source/`:
+
+```bash
+python run.py --list
+python run.py --scenario single-cell --no-browser
+python run.py --scenario windows-flip-axis
+python run.py --all
+```
+
+`--list` muestra públicos + todos los `maps/**/*.scenario.json`.  
+`--all` corre todos una vez y reporta media geométrica.
+
+La compañera solo necesita dejar `nombre.scenario.json` en su carpeta bajo `maps/` (mismo esquema) para que aparezcan igual.
 
 ## Regenerar
 
-Desde la raíz del repo:
-
 ```bash
-python3 maps/alesuito/generate.py
+python3 maps/alesuito/generate.py --sidecars-only   # solo definiciones para run.py
+python3 maps/alesuito/generate.py                   # sidecars + replays pesados
 ```
-
-Escribe un `.json` por escenario + `catalog.json` (índice con métricas baseline).
 
 ## Familias cubiertas
 
@@ -34,4 +43,4 @@ Escribe un `.json` por escenario + `catalog.json` (índice con métricas baselin
 | Sesgo por carril | `windows-lane-skew-rows`, `combo-corner-bias-3x3` |
 | Combos raros | `combo-1x3-burst-tiny-links`, `combo-2x2-flip-tiny-cap` |
 
-Ver detalle y costes DEMO en `catalog.json` tras generar.
+Ver detalle y costes DEMO en `catalog.json`.

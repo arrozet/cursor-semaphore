@@ -1,0 +1,15 @@
+{
+  "id": "grid-2x2-ns-storm",
+  "name": "2x2 NS storm",
+  "rows": 2,
+  "cols": 2,
+  "seed": 202,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.05,
+  "vertical_rate": 0.32,
+  "rush_axis": "NS",
+  "burst_period": 0,
+  "demand_windows": []
+}

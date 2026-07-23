@@ -1,0 +1,15 @@
+{
+  "id": "grid-2x2-balanced",
+  "name": "2x2 balanced medium",
+  "rows": 2,
+  "cols": 2,
+  "seed": 201,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.14,
+  "vertical_rate": 0.14,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

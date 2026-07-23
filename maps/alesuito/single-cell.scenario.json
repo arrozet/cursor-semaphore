@@ -1,0 +1,15 @@
+{
+  "id": "single-cell",
+  "name": "Single intersection",
+  "rows": 1,
+  "cols": 1,
+  "seed": 101,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.18,
+  "vertical_rate": 0.18,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

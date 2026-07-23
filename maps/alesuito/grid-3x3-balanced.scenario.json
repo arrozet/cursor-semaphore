@@ -1,0 +1,15 @@
+{
+  "id": "grid-3x3-balanced",
+  "name": "3x3 balanced",
+  "rows": 3,
+  "cols": 3,
+  "seed": 303,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.15,
+  "vertical_rate": 0.15,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

@@ -1,0 +1,15 @@
+{
+  "id": "balanced-grid",
+  "name": "Balanced grid",
+  "rows": 2,
+  "cols": 2,
+  "seed": 1403,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

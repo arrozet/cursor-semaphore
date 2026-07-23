@@ -314,7 +314,21 @@ def _scenario_summary(s: Scenario) -> dict:
     }
 
 
-def main() -> None:
+def write_sidecars_only() -> None:
+    """Emit *.scenario.json so run.py can discover these maps without replaying."""
+    ids = [s.id for s in SUITE]
+    if len(ids) != len(set(ids)):
+        raise SystemExit(f"duplicate scenario ids: {ids}")
+    for scenario in SUITE:
+        write_scenario_file(OUT / f"{scenario.id}.scenario.json", scenario)
+    print(f"Wrote {len(SUITE)} *.scenario.json sidecars -> {OUT}")
+
+
+def main(*, sidecars_only: bool = False) -> None:
+    if sidecars_only:
+        write_sidecars_only()
+        return
+
     ids = [s.id for s in SUITE]
     if len(ids) != len(set(ids)):
         raise SystemExit(f"duplicate scenario ids: {ids}")
@@ -323,6 +337,7 @@ def main() -> None:
     t0 = time.time()
     for i, scenario in enumerate(SUITE, 1):
         print(f"[{i}/{len(SUITE)}] {scenario.id} ({scenario.rows}x{scenario.cols}) ...", flush=True)
+        write_scenario_file(OUT / f"{scenario.id}.scenario.json", scenario)
         result = run_scenario(scenario, fixed_time_controller, record_replay=True)
         assert result.replay is not None
         out_path = OUT / f"{scenario.id}.json"
@@ -337,6 +352,7 @@ def main() -> None:
                 "cost": result.metrics.cost,
             },
             "file": out_path.name,
+            "scenario_file": f"{scenario.id}.scenario.json",
             "bytes": out_path.stat().st_size,
         }
         manifest.append(entry)
@@ -363,4 +379,13 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generate alesuito stress-suite maps")
+    parser.add_argument(
+        "--sidecars-only",
+        action="store_true",
+        help="Only write *.scenario.json for run.py discovery (skip heavy replays)",
+    )
+    args = parser.parse_args()
+    main(sidecars_only=args.sidecars_only)

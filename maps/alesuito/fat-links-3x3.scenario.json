@@ -1,0 +1,15 @@
+{
+  "id": "fat-links-3x3",
+  "name": "3x3 fat links",
+  "rows": 3,
+  "cols": 3,
+  "seed": 402,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 14,
+  "horizontal_rate": 0.22,
+  "vertical_rate": 0.22,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

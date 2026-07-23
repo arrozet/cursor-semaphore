@@ -91,7 +91,6 @@ def load_runnable_scenarios(maps_root: Path | None = None) -> tuple[Scenario, ..
     definition unless a matching sidecar exists (then sidecar wins for local runs).
     """
     by_id: dict[str, Scenario] = {scenario.id: scenario for scenario in PUBLIC_SCENARIOS}
-    public_ids = {scenario.id for scenario in PUBLIC_SCENARIOS}
 
     for path in discover_scenario_files(maps_root):
         scenario = load_scenario_file(path)
@@ -109,8 +108,6 @@ def load_runnable_scenarios(maps_root: Path | None = None) -> tuple[Scenario, ..
         key=lambda item: item.id,
     )
     ordered.extend(extras)
-    # Keep public_ids referenced so static analyzers know we used them.
-    _ = public_ids
     return tuple(ordered)
 
 

@@ -1,0 +1,34 @@
+{
+  "id": "combo-corner-bias-3x3",
+  "name": "3x3 corner-weighted lanes",
+  "rows": 3,
+  "cols": 3,
+  "seed": 705,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": [
+    {
+      "start_tick": 0,
+      "end_tick": 900,
+      "north_rate": 0.18,
+      "south_rate": 0.18,
+      "east_rate": 0.18,
+      "west_rate": 0.18,
+      "row_weights": [
+        0.7,
+        0.15,
+        0.15
+      ],
+      "col_weights": [
+        0.7,
+        0.15,
+        0.15
+      ]
+    }
+  ]
+}

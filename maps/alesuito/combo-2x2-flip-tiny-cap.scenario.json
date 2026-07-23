@@ -1,0 +1,36 @@
+{
+  "id": "combo-2x2-flip-tiny-cap",
+  "name": "2x2 axis flip + cap 4",
+  "rows": 2,
+  "cols": 2,
+  "seed": 703,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 4,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": [
+    {
+      "start_tick": 0,
+      "end_tick": 400,
+      "north_rate": 0.3,
+      "south_rate": 0.3,
+      "east_rate": 0.04,
+      "west_rate": 0.04,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 400,
+      "end_tick": 900,
+      "north_rate": 0.04,
+      "south_rate": 0.04,
+      "east_rate": 0.3,
+      "west_rate": 0.3,
+      "row_weights": [],
+      "col_weights": []
+    }
+  ]
+}

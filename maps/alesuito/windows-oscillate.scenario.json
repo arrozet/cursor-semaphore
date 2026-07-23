@@ -1,0 +1,76 @@
+{
+  "id": "windows-oscillate",
+  "name": "Oscillating 150-tick windows",
+  "rows": 2,
+  "cols": 2,
+  "seed": 604,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": [
+    {
+      "start_tick": 0,
+      "end_tick": 150,
+      "north_rate": 0.28,
+      "south_rate": 0.28,
+      "east_rate": 0.06,
+      "west_rate": 0.06,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 150,
+      "end_tick": 300,
+      "north_rate": 0.06,
+      "south_rate": 0.06,
+      "east_rate": 0.28,
+      "west_rate": 0.28,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 300,
+      "end_tick": 450,
+      "north_rate": 0.28,
+      "south_rate": 0.28,
+      "east_rate": 0.06,
+      "west_rate": 0.06,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 450,
+      "end_tick": 600,
+      "north_rate": 0.06,
+      "south_rate": 0.06,
+      "east_rate": 0.28,
+      "west_rate": 0.28,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 600,
+      "end_tick": 750,
+      "north_rate": 0.28,
+      "south_rate": 0.28,
+      "east_rate": 0.06,
+      "west_rate": 0.06,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 750,
+      "end_tick": 900,
+      "north_rate": 0.06,
+      "south_rate": 0.06,
+      "east_rate": 0.28,
+      "west_rate": 0.28,
+      "row_weights": [],
+      "col_weights": []
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "grid-3x5-tall",
+  "name": "3x5 tall rectangle",
+  "rows": 3,
+  "cols": 5,
+  "seed": 308,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.18,
+  "vertical_rate": 0.12,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

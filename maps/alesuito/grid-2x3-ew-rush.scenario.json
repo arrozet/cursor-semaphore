@@ -1,0 +1,15 @@
+{
+  "id": "grid-2x3-ew-rush",
+  "name": "2x3 EW rush",
+  "rows": 2,
+  "cols": 3,
+  "seed": 302,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.24,
+  "vertical_rate": 0.08,
+  "rush_axis": "EW",
+  "burst_period": 0,
+  "demand_windows": []
+}

@@ -1,0 +1,56 @@
+{
+  "id": "windows-north-only-pulse",
+  "name": "North-only pulses",
+  "rows": 4,
+  "cols": 2,
+  "seed": 607,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": [
+    {
+      "start_tick": 0,
+      "end_tick": 200,
+      "north_rate": 0.35,
+      "south_rate": 0.02,
+      "east_rate": 0.04,
+      "west_rate": 0.04,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 200,
+      "end_tick": 400,
+      "north_rate": 0.04,
+      "south_rate": 0.04,
+      "east_rate": 0.04,
+      "west_rate": 0.04,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 400,
+      "end_tick": 650,
+      "north_rate": 0.35,
+      "south_rate": 0.02,
+      "east_rate": 0.04,
+      "west_rate": 0.04,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 650,
+      "end_tick": 900,
+      "north_rate": 0.05,
+      "south_rate": 0.05,
+      "east_rate": 0.08,
+      "west_rate": 0.08,
+      "row_weights": [],
+      "col_weights": []
+    }
+  ]
+}

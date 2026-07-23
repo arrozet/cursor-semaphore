@@ -1,0 +1,15 @@
+{
+  "id": "combo-1x3-burst-tiny-links",
+  "name": "1x3 burst + tiny links",
+  "rows": 1,
+  "cols": 3,
+  "seed": 701,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 2,
+  "horizontal_rate": 0.3,
+  "vertical_rate": 0.08,
+  "rush_axis": null,
+  "burst_period": 60,
+  "demand_windows": []
+}

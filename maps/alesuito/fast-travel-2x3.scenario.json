@@ -1,0 +1,15 @@
+{
+  "id": "fast-travel-2x3",
+  "name": "2x3 fast travel",
+  "rows": 2,
+  "cols": 3,
+  "seed": 404,
+  "ticks": 900,
+  "travel_ticks": 2,
+  "link_capacity": 8,
+  "horizontal_rate": 0.2,
+  "vertical_rate": 0.12,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

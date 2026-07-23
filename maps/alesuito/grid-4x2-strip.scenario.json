@@ -1,0 +1,15 @@
+{
+  "id": "grid-4x2-strip",
+  "name": "4x2 strip",
+  "rows": 4,
+  "cols": 2,
+  "seed": 309,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.1,
+  "vertical_rate": 0.2,
+  "rush_axis": "NS",
+  "burst_period": 0,
+  "demand_windows": []
+}

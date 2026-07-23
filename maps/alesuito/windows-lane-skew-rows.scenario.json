@@ -1,0 +1,34 @@
+{
+  "id": "windows-lane-skew-rows",
+  "name": "Demand piled on one row",
+  "rows": 3,
+  "cols": 3,
+  "seed": 605,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": [
+    {
+      "start_tick": 0,
+      "end_tick": 900,
+      "north_rate": 0.12,
+      "south_rate": 0.12,
+      "east_rate": 0.2,
+      "west_rate": 0.2,
+      "row_weights": [
+        0.05,
+        0.15,
+        0.8
+      ],
+      "col_weights": [
+        0.33,
+        0.34,
+        0.33
+      ]
+    }
+  ]
+}
