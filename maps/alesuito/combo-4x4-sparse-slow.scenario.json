@@ -1,0 +1,15 @@
+{
+  "id": "combo-4x4-sparse-slow",
+  "name": "4x4 sparse slow travel",
+  "rows": 4,
+  "cols": 4,
+  "seed": 702,
+  "ticks": 900,
+  "travel_ticks": 10,
+  "link_capacity": 8,
+  "horizontal_rate": 0.05,
+  "vertical_rate": 0.05,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

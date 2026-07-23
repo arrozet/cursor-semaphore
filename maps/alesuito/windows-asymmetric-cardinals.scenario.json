@@ -1,0 +1,26 @@
+{
+  "id": "windows-asymmetric-cardinals",
+  "name": "N+E heavy S+W empty",
+  "rows": 3,
+  "cols": 3,
+  "seed": 608,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": [
+    {
+      "start_tick": 0,
+      "end_tick": 900,
+      "north_rate": 0.3,
+      "south_rate": 0.02,
+      "east_rate": 0.28,
+      "west_rate": 0.02,
+      "row_weights": [],
+      "col_weights": []
+    }
+  ]
+}

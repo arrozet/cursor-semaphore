@@ -1,0 +1,15 @@
+{
+  "id": "grid-3x3-burst90",
+  "name": "3x3 burst period 90",
+  "rows": 3,
+  "cols": 3,
+  "seed": 304,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.18,
+  "vertical_rate": 0.18,
+  "rush_axis": null,
+  "burst_period": 90,
+  "demand_windows": []
+}

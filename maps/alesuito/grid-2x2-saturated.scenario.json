@@ -1,0 +1,15 @@
+{
+  "id": "grid-2x2-saturated",
+  "name": "2x2 near saturation",
+  "rows": 2,
+  "cols": 2,
+  "seed": 205,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.35,
+  "vertical_rate": 0.35,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

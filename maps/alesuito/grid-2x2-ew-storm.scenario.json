@@ -1,0 +1,15 @@
+{
+  "id": "grid-2x2-ew-storm",
+  "name": "2x2 EW storm",
+  "rows": 2,
+  "cols": 2,
+  "seed": 203,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.32,
+  "vertical_rate": 0.05,
+  "rush_axis": "EW",
+  "burst_period": 0,
+  "demand_windows": []
+}

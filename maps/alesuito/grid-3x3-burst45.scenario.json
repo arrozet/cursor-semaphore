@@ -1,0 +1,15 @@
+{
+  "id": "grid-3x3-burst45",
+  "name": "3x3 fast burst 45",
+  "rows": 3,
+  "cols": 3,
+  "seed": 305,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.16,
+  "vertical_rate": 0.16,
+  "rush_axis": null,
+  "burst_period": 45,
+  "demand_windows": []
+}

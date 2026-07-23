@@ -1,0 +1,15 @@
+{
+  "id": "ew-only-3x3",
+  "name": "3x3 almost EW only",
+  "rows": 3,
+  "cols": 3,
+  "seed": 502,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.26,
+  "vertical_rate": 0.01,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

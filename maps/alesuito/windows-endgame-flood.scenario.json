@@ -1,0 +1,36 @@
+{
+  "id": "windows-endgame-flood",
+  "name": "Flood in last 200 ticks",
+  "rows": 3,
+  "cols": 3,
+  "seed": 610,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.13,
+  "vertical_rate": 0.13,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": [
+    {
+      "start_tick": 0,
+      "end_tick": 700,
+      "north_rate": 0.1,
+      "south_rate": 0.1,
+      "east_rate": 0.1,
+      "west_rate": 0.1,
+      "row_weights": [],
+      "col_weights": []
+    },
+    {
+      "start_tick": 700,
+      "end_tick": 900,
+      "north_rate": 0.32,
+      "south_rate": 0.32,
+      "east_rate": 0.32,
+      "west_rate": 0.32,
+      "row_weights": [],
+      "col_weights": []
+    }
+  ]
+}

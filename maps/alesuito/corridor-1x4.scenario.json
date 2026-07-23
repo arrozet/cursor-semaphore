@@ -1,0 +1,15 @@
+{
+  "id": "corridor-1x4",
+  "name": "Thin EW corridor",
+  "rows": 1,
+  "cols": 4,
+  "seed": 102,
+  "ticks": 900,
+  "travel_ticks": 5,
+  "link_capacity": 8,
+  "horizontal_rate": 0.28,
+  "vertical_rate": 0.04,
+  "rush_axis": null,
+  "burst_period": 0,
+  "demand_windows": []
+}

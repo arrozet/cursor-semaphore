@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
-import os
+import math
 import threading
 import time
 import traceback
@@ -14,8 +14,8 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 from traffic_arena.engine import fixed_time_controller, run_scenario
+from traffic_arena.map_loader import DEFAULT_MAPS_ROOT, load_runnable_scenarios
 from traffic_arena.score_profiles import score_profile
-from traffic_arena.scenarios import PUBLIC_SCENARIOS
 from traffic_arena.scoring import scenario_score
 
 ROOT = Path(__file__).resolve().parent
@@ -34,14 +34,30 @@ def load_controller():
     return module.control
 
 
-def simulate(scenario_index: int) -> None:
-    scenario = PUBLIC_SCENARIOS[scenario_index]
+def evaluate(scenario, controller) -> tuple[int, dict]:
+    baseline = run_scenario(scenario, fixed_time_controller, record_replay=False)
+    result = run_scenario(scenario, controller, record_replay=True)
+    profile = score_profile(
+        scenario.id,
+        baseline_cost=baseline.metrics.cost,
+        spawned=baseline.metrics.spawned,
+    )
+    # Prefer live baseline for scoring so local maps stay consistent with the run.
+    score = scenario_score(result.metrics.cost, baseline.metrics.cost, profile.target_cost)
+    return score, {
+        "scenario": scenario,
+        "baseline": baseline,
+        "result": result,
+        "score": score,
+        "profile": profile,
+    }
+
+
+def simulate(scenario) -> None:
     try:
         controller = load_controller()
-        baseline = run_scenario(scenario, fixed_time_controller, record_replay=False)
-        result = run_scenario(scenario, controller, record_replay=True)
-        profile = score_profile(scenario.id)
-        score = scenario_score(result.metrics.cost, baseline.metrics.cost, profile.target_cost)
+        score, payload_data = evaluate(scenario, controller)
+        result = payload_data["result"]
         payload = result.replay
         assert payload is not None
         payload["score"] = score
@@ -55,10 +71,11 @@ def simulate(scenario_index: int) -> None:
                 "revision": time.time_ns(),
                 "score": score,
                 "scenario": scenario.name,
+                "scenario_id": scenario.id,
                 "metrics": asdict(result.metrics),
             }
         )
-        print(f"[{time.strftime('%H:%M:%S')}] {scenario.name}: {score:,} points")
+        print(f"[{time.strftime('%H:%M:%S')}] {scenario.id}: {score:,} points")
     except Exception as exc:
         OUTPUT.mkdir(exist_ok=True)
         error = {"ok": False, "error": str(exc), "traceback": traceback.format_exc()[-4000:]}
@@ -71,6 +88,33 @@ def write_status(payload: dict) -> None:
     temporary = OUTPUT / "status.tmp"
     temporary.write_text(json.dumps(payload), encoding="utf-8")
     temporary.replace(OUTPUT / "status.json")
+
+
+def list_scenarios(scenarios) -> None:
+    print(f"Maps root: {DEFAULT_MAPS_ROOT}")
+    print(f"{'id':<32} {'grid':>7} {'name'}")
+    print("-" * 72)
+    for scenario in scenarios:
+        grid = f"{scenario.rows}x{scenario.cols}"
+        print(f"{scenario.id:<32} {grid:>7} {scenario.name}")
+    print(f"\n{len(scenarios)} scenarios (PUBLIC + maps/**/*.scenario.json)")
+
+
+def run_all(scenarios) -> None:
+    controller = load_controller()
+    scores: list[int] = []
+    print(f"{'id':<32} {'cost':>8} {'base':>8} {'score':>7}")
+    print("-" * 60)
+    for scenario in scenarios:
+        score, data = evaluate(scenario, controller)
+        cost = data["result"].metrics.cost
+        base = data["baseline"].metrics.cost
+        scores.append(score)
+        print(f"{scenario.id:<32} {cost:>8} {base:>8} {score:>7,}")
+    if scores:
+        geo = round(math.exp(sum(math.log(score) for score in scores) / len(scores)))
+        print("-" * 60)
+        print(f"{'geometric_mean':<32} {'':>8} {'':>8} {geo:>7,}")
 
 
 class NoCacheHandler(SimpleHTTPRequestHandler):
@@ -126,12 +170,38 @@ def create_server(port: int) -> ThreadingHTTPServer:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run Traffic Lights Arena locally")
-    parser.add_argument("--scenario", choices=[scenario.id for scenario in PUBLIC_SCENARIOS], default=PUBLIC_SCENARIOS[0].id)
+    scenarios = load_runnable_scenarios()
+    if not scenarios:
+        raise SystemExit("No scenarios found (PUBLIC_SCENARIOS empty and no maps/**/*.scenario.json)")
+
+    parser = argparse.ArgumentParser(
+        description="Run Traffic Lights Arena locally. Discovers maps/**/*.scenario.json from any folder."
+    )
+    parser.add_argument(
+        "--scenario",
+        choices=[scenario.id for scenario in scenarios],
+        default=scenarios[0].id,
+        help="Scenario id (public or any maps/**/*.scenario.json)",
+    )
+    parser.add_argument("--list", action="store_true", help="List all runnable scenarios and exit")
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Run every discovered scenario once (geometric mean) and exit",
+    )
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--no-browser", action="store_true")
     args = parser.parse_args()
-    scenario_index = next(index for index, scenario in enumerate(PUBLIC_SCENARIOS) if scenario.id == args.scenario)
+
+    if args.list:
+        list_scenarios(scenarios)
+        return
+
+    if args.all:
+        run_all(scenarios)
+        return
+
+    scenario = next(item for item in scenarios if item.id == args.scenario)
 
     try:
         httpd = create_server(args.port)
@@ -139,7 +209,7 @@ def main() -> None:
         raise SystemExit(f"Could not start viewer on port {args.port}: {exc}") from exc
     server = threading.Thread(target=httpd.serve_forever, daemon=True)
     server.start()
-    simulate(scenario_index)
+    simulate(scenario)
     url = f"http://127.0.0.1:{args.port}/viewer/"
     print(f"Viewer: {url}")
     print("Watching controller.py. Save the file to run again. Press Ctrl+C to stop.")
@@ -154,7 +224,7 @@ def main() -> None:
             if modified != last_modified:
                 last_modified = modified
                 time.sleep(0.15)
-                simulate(scenario_index)
+                simulate(scenario)
     except KeyboardInterrupt:
         print("\nStopped.")
     finally:
