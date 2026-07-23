@@ -1,34 +1,34 @@
-# Guía del agente
+# Agent Guide
 
-Estrategia de trabajo para resolver el reto. Lee primero [`challenge.md`](challenge.md) para las reglas, la API y la puntuación.
+Working strategy for solving the challenge. Read [`challenge.md`](challenge.md) first for rules, API, and scoring.
 
-## Principios
+## Principles
 
-1. **Solo el controlador** — todos los cambios de lógica van en el único archivo del controlador; no toques el motor de simulación.
-2. **Generaliza** — el 80% del score viene de mapas privados; no sobreajustes a los públicos.
-3. **Prueba antes de enviar** — ejecuta `python run.py` en local antes de cada `python submit.py`.
-4. **Envíos escasos** — máximo 20 intentos; un controller roto consume intento. No envíes sin validar.
-5. **Apunta al gold** — entre baseline y gold el avance se eleva al cuadrado; una mejora cerca del gold vale mucho más que una leve mejora temprana.
+1. **Controller only** — all logic changes go in the single controller file; do not touch the simulation engine.
+2. **Generalize** — 80% of the score comes from private maps; do not overfit to the public ones.
+3. **Test before submit** — run `python run.py` locally before every `python submit.py`.
+4. **Submissions are scarce** — max 20 attempts; a broken controller still consumes an attempt. Do not submit without validating.
+5. **Aim for gold** — between baseline and gold, progress is squared; a near-gold improvement is worth far more than a small early gain.
 
-## Control de versiones
+## Version control
 
-- Commitea de forma **incremental** con [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`, …).
-- Tras cada cambio relevante: **commit + push** de inmediato. No acumules trabajo sin subir.
-- Un commit = una idea clara (una mejora de estrategia, un fix, un ajuste de docs).
+- Commit **incrementally** with [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`, …).
+- After every meaningful change: **commit + push** immediately. Do not stockpile unpushed work.
+- One commit = one clear idea (a strategy tweak, a fix, a docs update).
 
-## Ciclo de trabajo
+## Work loop
 
-1. Entiende el estado actual del controlador y los resultados locales.
-2. Propón un cambio pequeño y medible (heurística, pesos, umbrales, memoria entre ticks).
-3. Implementa solo ese cambio.
-4. Valida con `python run.py`.
-5. Commit + push con Conventional Commits.
-6. Si el resultado mejora de forma estable, considera un envío (`python submit.py`).
-7. Repite: itera rápido, mide, conserva lo que generaliza.
+1. Understand the current controller and local results.
+2. Propose a small, measurable change (heuristic, weights, thresholds, within-map memory).
+3. Implement only that change.
+4. Validate with `python run.py`.
+5. Commit + push with Conventional Commits.
+6. If results improve stably, consider a submission (`python submit.py`).
+7. Repeat: iterate fast, measure, keep what generalizes.
 
-## Qué optimizar
+## What to optimize
 
-- Mover más coches y reducir espera en cruces.
-- Adaptarse a densidades y topologías distintas (mapas no vistos).
-- Usar memoria **dentro** de un mapa (colas, fases, tendencias); asume proceso limpio entre mapas.
-- Preferir reglas robustas frente a constantes mágicas afinadas a un solo mapa.
+- Move more cars and reduce waiting at junctions.
+- Adapt to different densities and topologies (unseen maps).
+- Use memory **within** a map (queues, phases, trends); assume a clean process between maps.
+- Prefer robust rules over magic constants tuned to a single map.
