@@ -1,0 +1,124 @@
+{
+ "name": "probe_got0",
+ "controller": "/Users/roz/Documents/github/cursor-semaphore-fable-b/source/controller.py",
+ "summary": {
+  "public_geom": 15144,
+  "public_geom_seed0": 22695,
+  "alesuito_geom": 19012,
+  "all_geom": 18537,
+  "min_score": 15140,
+  "total_unfinished": 174,
+  "n_maps": 9,
+  "seeds": 3
+ },
+ "rows": [
+  {
+   "id": "balanced-grid",
+   "cost": 15326,
+   "score": 15144,
+   "score0": 22695,
+   "scores": [
+    22695,
+    14605,
+    10478
+   ],
+   "unfinished": 16
+  },
+  {
+   "id": "fast-travel-2x3",
+   "cost": 22748,
+   "score": 15238,
+   "score0": 10911,
+   "scores": [
+    10911,
+    13135,
+    24689
+   ],
+   "unfinished": 21
+  },
+  {
+   "id": "grid-2x2-sparse",
+   "cost": 3089,
+   "score": 17407,
+   "score0": 25000,
+   "scores": [
+    25000,
+    9930,
+    21246
+   ],
+   "unfinished": 5
+  },
+  {
+   "id": "grid-3x3-burst45",
+   "cost": 57978,
+   "score": 17857,
+   "score0": 15177,
+   "scores": [
+    15177,
+    20308,
+    18473
+   ],
+   "unfinished": 57
+  },
+  {
+   "id": "single-cell",
+   "cost": 9241,
+   "score": 23852,
+   "score0": 25000,
+   "scores": [
+    25000,
+    21711,
+    25000
+   ],
+   "unfinished": 9
+  },
+  {
+   "id": "windows-lane-skew-cols",
+   "cost": 12337,
+   "score": 25000,
+   "score0": 25000,
+   "scores": [
+    25000,
+    25000,
+    25000
+   ],
+   "unfinished": 16
+  },
+  {
+   "id": "windows-lane-skew-rows",
+   "cost": 13533,
+   "score": 17932,
+   "score0": 13954,
+   "scores": [
+    13954,
+    19224,
+    21496
+   ],
+   "unfinished": 13
+  },
+  {
+   "id": "windows-mid-spike",
+   "cost": 29490,
+   "score": 15140,
+   "score0": 11478,
+   "scores": [
+    11478,
+    12093,
+    25000
+   ],
+   "unfinished": 17
+  },
+  {
+   "id": "windows-oscillate",
+   "cost": 20269,
+   "score": 22260,
+   "score0": 25000,
+   "scores": [
+    25000,
+    18096,
+    24380
+   ],
+   "unfinished": 20
+  }
+ ]
+}

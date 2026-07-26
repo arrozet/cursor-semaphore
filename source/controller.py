@@ -15,6 +15,9 @@ HYSTERESIS_RATIO = 0.0
 DOWNSTREAM_WEIGHT = 0.0
 GAP_OUT_QUEUE = 0
 GAP_OUT_TRAVEL = 2
+GAP_HORIZON = -1  # ticks; -1 disables arrival-aware gap-out
+PREDICT_HORIZON = 0  # count other-axis arrivals due within this many ticks
+TRAVERSAL_DENSITY = 0.0  # scale corridor-hold below this density (0 = off)
 MAX_GREEN = 70
 ENDGAME_TICKS = 0
 ENDGAME_SWITCH_MARGIN = 1.0
@@ -32,17 +35,19 @@ _last_tick = -1
 _travel_est = None  # inferred per-map link travel ticks
 _link_watch: dict[str, int] = {}
 _prev_links: dict[str, int] = {}
+_link_entries: dict[str, list[int]] = {}
 
 
 def _reset_episode_state() -> None:
     global _target_phase, _planned_axis, _planned_green
-    global _travel_est, _link_watch, _prev_links
+    global _travel_est, _link_watch, _prev_links, _link_entries
     _target_phase = "NS_GREEN"
     _planned_axis = None
     _planned_green = MIN_GREEN
     _travel_est = None
     _link_watch = {}
     _prev_links = {}
+    _link_entries = {}
 
 
 def _update_travel_estimate(state: dict, tick: int) -> None:
@@ -52,6 +57,9 @@ def _update_travel_estimate(state: dict, tick: int) -> None:
     (first observed decrease or emptying) - (entry into empty link) >= T,
     with equality whenever a vehicle crosses without a same-tick entry
     masking its exit. Taking the min converges to the true T early on.
+
+    Also keeps per-link FIFO entry ticks so we can tell how soon in-flight
+    vehicles will reach their downstream queue.
     """
     global _travel_est, _prev_links
     links_now = {
@@ -67,7 +75,28 @@ def _update_travel_estimate(state: dict, tick: int) -> None:
             obs = tick - _link_watch.pop(k)
             if obs >= 1 and (_travel_est is None or obs < _travel_est):
                 _travel_est = obs
+        entries = _link_entries.setdefault(k, [])
+        if occ > prev:
+            entries.extend([tick] * (occ - prev))
+        elif occ < prev:
+            del entries[: prev - occ]
+        if occ == 0 and entries:
+            entries.clear()
     _prev_links = links_now
+
+
+def _imminent_arrivals(state: dict, axis: str, tick: int, horizon: int) -> int:
+    """In-flight vehicles on links of `axis` arriving within `horizon` ticks."""
+    travel = _travel_ticks()
+    count = 0
+    for key, link in (state.get("links") or {}).items():
+        if _link_axis(link) != axis:
+            continue
+        for entry_tick in _link_entries.get(key, ()):
+            eta = entry_tick + travel - tick
+            if eta <= horizon:
+                count += 1
+    return count
 
 
 def _travel_ticks() -> int:
@@ -206,6 +235,9 @@ def control(state):
         n = max(1, len(intersections))
         active = q_cur + q_oth + t_cur + t_oth
         density = active / n
+        if TRAVERSAL_DENSITY > 0 and density < TRAVERSAL_DENSITY:
+            # Sparse corridors do not sustain platoons; shorten the hold.
+            traversal = int(round(traversal * density / TRAVERSAL_DENSITY))
         scale = QUEUE_BONUS_IN_PLAN
         if density >= DENSITY_SOFTEN:
             scale = min(scale, SOFT_BONUS)
@@ -226,15 +258,24 @@ def control(state):
             p_oth > p_cur * (1.0 + HYSTERESIS_RATIO) or p_cur <= 0
         )
 
-    # Gap-out only when queues AND in-flight corridor traffic are gone.
-    gap_out = (
-        age >= MIN_GREEN
-        and q_cur <= GAP_OUT_QUEUE
-        and t_cur <= GAP_OUT_TRAVEL
-        and q_oth > 0
-    )
-    max_out = age >= MAX_GREEN and q_oth > 0
-    plan_ready = age >= _planned_green and q_oth > 0
+    # Gap-out when queues are clear and nothing arrives soon enough to use
+    # this green; vehicles still far out on links travel fine during red.
+    if GAP_HORIZON >= 0:
+        idle = (
+            q_cur <= GAP_OUT_QUEUE
+            and _imminent_arrivals(state, current_axis, tick, GAP_HORIZON) <= 0
+        )
+    else:
+        idle = q_cur <= GAP_OUT_QUEUE and t_cur <= GAP_OUT_TRAVEL
+    # Pending rival demand: queued now, plus in-flight vehicles that would
+    # reach a rival queue around the time a switch could complete.
+    pending_oth = q_oth
+    if PREDICT_HORIZON > 0 and q_oth == 0:
+        pending_oth += _imminent_arrivals(state, other_axis, tick, PREDICT_HORIZON)
+
+    gap_out = age >= MIN_GREEN and idle and pending_oth > 0
+    max_out = age >= MAX_GREEN and pending_oth > 0
+    plan_ready = age >= _planned_green and pending_oth > 0
 
     if REQUIRE_PRESSURE_TO_SWITCH:
         plan_switch = plan_ready and pressure_leads
@@ -245,7 +286,7 @@ def control(state):
         plan_switch = False
 
     should_switch = False
-    if reference["can_switch"] and q_oth > 0:
+    if reference["can_switch"] and pending_oth > 0:
         if remaining <= YELLOW_PLUS_ALLRED + MIN_GREEN:
             should_switch = q_cur <= 0 and t_cur <= 0
         elif ENDGAME_TICKS > 0 and remaining <= ENDGAME_TICKS:
