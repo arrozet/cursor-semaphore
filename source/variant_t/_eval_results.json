@@ -1,0 +1,206 @@
+[
+  {
+    "name": "t1_solo_mode",
+    "path": "/Users/roz/Documents/github/cursor-semaphore/source/variant_t/t1_solo_mode.py",
+    "public": 22983,
+    "alesuito": 20477,
+    "all": 20639,
+    "unfinished": 2669,
+    "worst": [
+      [
+        "combo-4x4-sparse-slow",
+        8211,
+        53
+      ],
+      [
+        "grid-2x2-saturated",
+        9703,
+        80
+      ],
+      [
+        "grid-2x2-balanced",
+        10323,
+        17
+      ],
+      [
+        "fast-travel-2x3",
+        10892,
+        21
+      ],
+      [
+        "combo-corner-bias-3x3",
+        12071,
+        21
+      ],
+      [
+        "windows-endgame-flood",
+        12086,
+        142
+      ],
+      [
+        "windows-rush-to-quiet",
+        12568,
+        7
+      ],
+      [
+        "windows-lane-skew-cols",
+        15580,
+        20
+      ]
+    ],
+    "seconds": 27.7
+  },
+  {
+    "name": "t4_solo_prior",
+    "path": "/Users/roz/Documents/github/cursor-semaphore/source/variant_t/t4_solo_prior.py",
+    "public": 22983,
+    "alesuito": 20477,
+    "all": 20639,
+    "unfinished": 2678,
+    "worst": [
+      [
+        "combo-4x4-sparse-slow",
+        8211,
+        53
+      ],
+      [
+        "grid-2x2-saturated",
+        9703,
+        80
+      ],
+      [
+        "grid-2x2-balanced",
+        10323,
+        17
+      ],
+      [
+        "fast-travel-2x3",
+        10892,
+        21
+      ],
+      [
+        "combo-corner-bias-3x3",
+        12071,
+        21
+      ],
+      [
+        "windows-endgame-flood",
+        12086,
+        142
+      ],
+      [
+        "windows-rush-to-quiet",
+        12568,
+        7
+      ],
+      [
+        "windows-lane-skew-cols",
+        15580,
+        20
+      ]
+    ],
+    "seconds": 61.0
+  },
+  {
+    "name": "t3_solo_early",
+    "path": "/Users/roz/Documents/github/cursor-semaphore/source/variant_t/t3_solo_early.py",
+    "public": 22983,
+    "alesuito": 20440,
+    "all": 20604,
+    "unfinished": 2656,
+    "worst": [
+      [
+        "combo-4x4-sparse-slow",
+        8211,
+        53
+      ],
+      [
+        "grid-2x2-saturated",
+        9703,
+        80
+      ],
+      [
+        "fast-travel-2x3",
+        10003,
+        23
+      ],
+      [
+        "grid-2x2-balanced",
+        10445,
+        17
+      ],
+      [
+        "combo-corner-bias-3x3",
+        12071,
+        21
+      ],
+      [
+        "windows-endgame-flood",
+        12086,
+        142
+      ],
+      [
+        "windows-rush-to-quiet",
+        12568,
+        7
+      ],
+      [
+        "windows-lane-skew-cols",
+        15580,
+        20
+      ]
+    ],
+    "seconds": 22.5
+  },
+  {
+    "name": "t2_solo_replan",
+    "path": "/Users/roz/Documents/github/cursor-semaphore/source/variant_t/t2_solo_replan.py",
+    "public": 22983,
+    "alesuito": 20434,
+    "all": 20599,
+    "unfinished": 2656,
+    "worst": [
+      [
+        "combo-4x4-sparse-slow",
+        8211,
+        53
+      ],
+      [
+        "grid-2x2-saturated",
+        9703,
+        80
+      ],
+      [
+        "fast-travel-2x3",
+        10004,
+        23
+      ],
+      [
+        "grid-2x2-balanced",
+        10323,
+        17
+      ],
+      [
+        "combo-corner-bias-3x3",
+        12071,
+        21
+      ],
+      [
+        "windows-endgame-flood",
+        12086,
+        142
+      ],
+      [
+        "windows-rush-to-quiet",
+        12568,
+        7
+      ],
+      [
+        "windows-lane-skew-cols",
+        15580,
+        20
+      ]
+    ],
+    "seconds": 53.7
+  }
+]

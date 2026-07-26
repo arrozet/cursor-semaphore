@@ -1,0 +1,49 @@
+id                                   cost     base   score unf
+balanced-grid                       16315    16648   10806  10 PUB
+northbound-morning                  28954    36398   24459  30 PUB
+city-rush                           69555    83137   17644  55 PUB
+combo-1x3-burst-tiny-links         185104   307243   25000 245 
+combo-2x2-flip-tiny-cap             19844    51517   25000  20 
+combo-4x4-sparse-slow               47829    33821    7071  60 
+combo-5x5-mild                     131450   190643   25000 153 
+combo-corner-bias-3x3               17102    18822   15568  18 
+corridor-1x4                        17399    27137   25000  22 
+corridor-5x1                       208392   294007   25000 266 
+dead-quiet-2x2                        638     1281   25000   0 
+ew-only-3x3                         31942    49391   25000  51 
+fast-travel-2x3                     25149    23621    9392  24 
+fat-links-3x3                       67385    79554   25000  69 
+grid-2x2-balanced                   20447    20167    9863  20 
+grid-2x2-ew-storm                   21964    36568   25000  23 
+grid-2x2-ns-storm                   19464    39797   25000  13 
+grid-2x2-saturated                  74269    73916    9952  71 
+grid-2x2-sparse                      3059     4023   25000   3 
+grid-2x3-ew-rush                    26374    34453   25000  23 
+grid-3x2-ns-rush                    32318    41875   25000  38 
+grid-3x3-balanced                   45410    53002   23679  44 
+grid-3x3-burst45                    58543    63581   14186  53 
+grid-3x3-burst90                    73357    83547   19917  70 
+grid-3x5-tall                       70905    80769   19944  76 
+grid-4x2-strip                      59241   192087   25000  30 
+grid-4x4-heavy                     188258   298382   25000 202 
+grid-5x3-wide                      349481   482970   25000 457 
+micro-1x2                           12294    12931   11617  11 
+micro-2x1                           12853    14855   22111  14 
+ns-only-3x3                         23997    56838   25000  28 
+single-cell                          9387    11417   25000   9 
+slow-travel-3x3                     91072   115400   25000 106 
+tiny-links-2x2                      43779    62068   25000  43 
+windows-asymmetric-cardinals        52444    59071   18390  49 
+windows-endgame-flood               68210    80869   25000 114 
+windows-flip-axis                   49012    58444   25000  73 
+windows-lane-skew-cols              12210    15863   25000  13 
+windows-lane-skew-rows              13685    14662   12961  14 
+windows-mid-spike                   29488    30947   11482  20 
+windows-north-only-pulse            30841    85294   25000  19 
+windows-oscillate                   19527    26934   25000  16 
+windows-quiet-to-rush               25059    36179   25000  16 
+windows-rush-to-quiet               17283    18741   14035   7 
+
+PUBLIC geometric mean : 16707 [10806, 24459, 17644]
+ALL geometric mean    : 19891 (44 maps)
+worst 8: [('combo-4x4-sparse-slow', 7071), ('fast-travel-2x3', 9392), ('grid-2x2-balanced', 9863), ('grid-2x2-saturated', 9952), ('balanced-grid', 10806), ('windows-mid-spike', 11482), ('micro-1x2', 11617), ('windows-lane-skew-rows', 12961)]
