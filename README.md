@@ -5,131 +5,131 @@
 <h1 align="center">Traffic Lights Arena</h1>
 
 <p align="center">
-  <strong>Cursor Build Night · Málaga · 23 julio 2026</strong><br/>
-  Control adaptativo de semáforos con <em>agentic AI</em> — exploración multiagente + explotación del mejor controlador
+  <strong>Cursor Build Night · Málaga · July 23, 2026</strong><br/>
+  Adaptive traffic-signal control with <em>agentic AI</em> — multi-agent exploration + exploitation of the best controller
 </p>
 
 <p align="center">
-  <img alt="Resultado" src="https://img.shields.io/badge/resultado-4%C2%BA%20de%2017-f97316?style=for-the-badge" />
-  <img alt="Score final" src="https://img.shields.io/badge/score_final-18.108-111827?style=for-the-badge" />
+  <img alt="Result" src="https://img.shields.io/badge/result-4th%20of%2017-f97316?style=for-the-badge" />
+  <img alt="Final score" src="https://img.shields.io/badge/final_score-18.108-111827?style=for-the-badge" />
   <img alt="Python" src="https://img.shields.io/badge/python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-  <img alt="Tiempo" src="https://img.shields.io/badge/hackathon-105%20min-0f172a?style=for-the-badge" />
+  <img alt="Time" src="https://img.shields.io/badge/hackathon-105%20min-0f172a?style=for-the-badge" />
 </p>
 
 <p align="center">
-  <a href="https://www.cursorspain.com/mlg/es">Evento</a> ·
-  <a href="https://github.com/arrozet/cursor-semaphore/tree/strategy-b-optimization">Controller ganador (`strategy-b-optimization`)</a> ·
-  <a href="challenge.md">Reglas del reto</a>
+  <a href="https://www.cursorspain.com/mlg/es">Event</a> ·
+  <a href="https://github.com/arrozet/cursor-semaphore/tree/strategy-b-optimization">Winning controller (`strategy-b-optimization`)</a> ·
+  <a href="challenge.md">Challenge rules</a>
 </p>
 
 ---
 
-## Resultado
+## Result
 
-**4º de 17 equipos** en la clasificación final (20% mapas públicos + 80% suite sellada).
+**4th of 17 teams** on the final leaderboard (20% public maps + 80% sealed suite).
 
-Equipo: **JORGE MAREA NO VA A GANAR** · score final **18.108**
+Team: **JORGE MAREA NO VA A GANAR** · final score **18.108**
 
 <p align="center">
-  <img src="docs/assets/leaderboard-final.png" alt="Clasificación final — 4º puesto" width="720" />
+  <img src="docs/assets/leaderboard-final.png" alt="Final leaderboard — 4th place" width="720" />
 </p>
 
 <p align="center">
-  <img src="docs/assets/replay-balanced-grid.png" alt="Replay del envío en balanced-grid" width="720" />
+  <img src="docs/assets/replay-balanced-grid.png" alt="Replay of our submission on balanced-grid" width="720" />
 </p>
 
 ---
 
-## El problema
+## The problem
 
-En **105 minutos**, un único archivo: `controller.py`.
+In **105 minutes**, change a single file: `controller.py`.
 
-El motor simula una ciudad a ticks discretos. Tú solo decides, en cada cruce, si el verde va a `NS_GREEN` o `EW_GREEN`. El resto (amarillo, all-red, mínimos) lo hace el simulador.
+The engine simulates a city at discrete ticks. You only choose, per intersection, whether green goes to `NS_GREEN` or `EW_GREEN`. Yellow, all-red, and minimum greens are handled by the simulator.
 
-Lo difícil no era “mover coches”: era **generalizar**. Solo había **3 mapas públicos**; la puntuación real venía de **mapas privados desconocidos**. Un controlador overfiteado a los públicos moría en la final.
+The hard part was not “move cars” — it was **generalization**. There were only **3 public maps**; the real score came from **unknown private maps**. A controller overfit to the public set would die in the finals.
 
-Coste por escenario (confirmado en el motor):
+Per-scenario cost (from the engine):
 
 ```text
 cost = wait_ticks + 300 × unfinished
 ```
 
-Cada coche que **no llega** al final del episodio suma **+300**. La agregación entre mapas es una **media geométrica**, así que un escenario malo hunde el total mucho más que uno bueno lo sube.
+Every car that **does not finish** by the end of the episode costs **+300**. Scores across maps are aggregated with a **geometric mean**, so one bad scenario hurts far more than a great scenario helps.
 
 ---
 
-## Enfoque: exploración → explotación
+## Approach: explore → exploit
 
-El Build Night estaba pensado para **agentic AI**: problemas abstractos, APIs nuevas, poco tiempo. Nuestra estrategia no fue “una IA que resuelve el tráfico”, sino **orquestar agentes** con un loop claro.
+Build Night was built for **agentic AI**: abstract problems, unfamiliar APIs, little time. Our strategy was not “one model that solves traffic,” but **orchestrating agents** with a clear loop.
 
-### 1. Entender el juego
+### 1. Understand the game
 
-- Leer motor, scoring y restricciones
-- Benchmarkear heurísticas (fixed-time, max-pressure local, sync global…)
-- Descubrir que **desincronizar cruces colapsa** redes grandes → fases **sincronizadas** a nivel de red
+- Read the engine, scoring, and constraints
+- Benchmark heuristics (fixed-time, local max-pressure, global sync…)
+- Discover that **desynchronizing junctions collapses** large grids → use **network-wide synchronized** phases
 
-### 2. Exploración (varios agentes en paralelo)
+### 2. Exploration (several agents in parallel)
 
-Una vez claro el espacio de soluciones, lanzamos agentes en **worktrees/ramas distintas**, cada uno con una tesis:
+Once the solution space was clear, we launched agents in **separate worktrees/branches**, each with a thesis:
 
-| Estrategia | Idea |
+| Strategy | Idea |
 |---|---|
-| A · Completion-aware | Drenaje de endgame |
-| **B · Sync max-pressure** | Corredor sincronizado + histéresis / gap-out |
-| C · Demand-ratio | Split por EMA de demanda |
-| D · Travel / floor | Inferir travel y subir el suelo |
+| A · Completion-aware | Endgame drain |
+| **B · Sync max-pressure** | Synchronized corridor + hysteresis / gap-out |
+| C · Demand-ratio | Split from an EMA of demand |
+| D · Travel / floor | Infer travel time and raise the floor |
 
-Los evaluábamos en:
+We scored them on:
 
-1. los **3 mapas públicos**, y  
-2. una suite propia de estrés (`maps/alesuito`, ~41 escenarios) para forzar generalización antes de pelear con los privados.
+1. the **3 public maps**, and  
+2. our own stress suite (`maps/alesuito`, ~41 scenarios) to force generalization before facing the private set.
 
-### 3. Explotación (optimizar al líder)
+### 3. Exploitation (optimize the leader)
 
-Cuando **B** ganó en geom pública + alesuito, la rama
+When **B** won on public + alesuito geometric mean, branch
 [`strategy-b-optimization`](https://github.com/arrozet/cursor-semaphore/tree/strategy-b-optimization)
-pasó a modo explotación:
+switched to exploit mode:
 
-- subir **mínimos** (la geom castiga el peor mapa)
-- reducir **unfinished** (`+300` por coche)
-- soft-hold / freeze tardío y **spike-gated drain** (variante U9) sin romper el suelo público
+- raise **minimums** (geom mean punishes the worst map)
+- cut **unfinished** cars (`+300` each)
+- late soft-hold / freeze and **spike-gated drain** (variant U9) without breaking the public floor
 
-Ese controlador es el que enviamos y el que representa el resultado del equipo.
+That controller is what we submitted — and what represents the team result.
 
 ```text
-PUBLIC geom  ≈ 22.983   (igual que B base)
-ALL geom     ≈ 20.996   (públicos + alesuito; +527 vs B)
+PUBLIC geom  ≈ 22,983   (same as base B)
+ALL geom     ≈ 20,996   (public + alesuito; +527 vs B)
 ```
 
 ---
 
-## Por qué importa la media geométrica
+## Why the geometric mean matters
 
-Con media aritmética puedes “compensar” un mapa malo con otro excelente.  
-Con media geométrica, **el suelo manda**.
+With an arithmetic mean you can “buy” a bad map with an excellent one.  
+With a geometric mean, **the floor dominates**.
 
-Por eso la explotación no buscaba picos en un solo escenario, sino:
+So exploitation did not chase peaks on a single scenario. It aimed to:
 
-- elevar `combo-4x4-sparse-slow`, `fast-travel-*`, saturados, endgame floods…
-- evitar switches inútiles al final del episodio
-- no dejar platoones colgados (cada unfinished duele ×300)
+- lift `combo-4x4-sparse-slow`, `fast-travel-*`, saturated grids, endgame floods…
+- avoid useless late switches
+- not leave platoons stranded (each unfinished hurts ×300)
 
 ---
 
-## Estructura del repo
+## Repo layout
 
 ```text
-source/controller.py          # punto de entrada del reto
-source/traffic_arena/         # motor + scoring
-maps/alesuito/                # suite de estrés propia (generalización)
+source/controller.py          # challenge entry point
+source/traffic_arena/         # engine + scoring
+maps/alesuito/                # custom stress suite (generalization)
 variants/                     # ablations (E, U, …)
-strategy-b-optimization       # rama del controller enviado (U9 sobre B)
-docs/assets/                  # capturas e imágenes del README
+strategy-b-optimization       # submitted controller branch (U9 on top of B)
+docs/assets/                  # README screenshots & hero art
 ```
 
-> El controller “de producción” del equipo está en la rama
+> The team’s production controller lives on
 > [`strategy-b-optimization`](https://github.com/arrozet/cursor-semaphore/tree/strategy-b-optimization)
-> (`source/controller.py` allí = U9 spike-drain sobre Strategy B).
+> (`source/controller.py` there = U9 spike-drain on Strategy B).
 
 ---
 
@@ -143,7 +143,7 @@ pip install -r requirements.txt
 python run.py --scenario balanced-grid
 ```
 
-Para evaluar una batería local (públicos + sidecars bajo `maps/`):
+To evaluate a local battery (public maps + sidecars under `maps/`):
 
 ```bash
 python eval_all.py controller.py
@@ -154,20 +154,20 @@ python eval_all.py controller.py
 ## Stack & constraints
 
 - Python (stdlib + NumPy)
-- Un solo archivo editable en competición: el controlador
-- Memoria **dentro** de un mapa; proceso limpio entre mapas
-- Scoring: curva baseline→gold al cuadrado; agregación geométrica; final por familias (min de cada par)
+- One editable file in competition: the controller
+- Memory **within** a map; clean process between maps
+- Scoring: squared baseline→gold curve; geometric aggregation; finals by families (min of each pair)
 
 ---
 
-## Créditos
+## Credits
 
-- Evento: [Cursor Build Night Málaga](https://www.cursorspain.com/mlg/es) — *Traffic Lights Arena*
-- Starter / motor: Cursor Málaga (MIT, ver `source/LICENSE`)
-- Assets del viewer: Kenney (ver `source/viewer/assets/KENNEY-LICENSE.txt`)
+- Event: [Cursor Build Night Málaga](https://www.cursorspain.com/mlg/es) — *Traffic Lights Arena*
+- Starter / engine: Cursor Málaga (MIT, see `source/LICENSE`)
+- Viewer assets: Kenney (see `source/viewer/assets/KENNEY-LICENSE.txt`)
 
 ---
 
 <p align="center">
-  <sub>Hackathon de agentic AI: agentes que exploran hipótesis distintas, humanos que eligen qué explotar, y una métrica que castiga no generalizar.</sub>
+  <sub>An agentic-AI hackathon: agents explore competing hypotheses, humans decide what to exploit, and the metric punishes failing to generalize.</sub>
 </p>
